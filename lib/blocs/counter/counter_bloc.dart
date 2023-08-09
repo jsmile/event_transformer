@@ -7,14 +7,15 @@ part 'counter_state.dart';
 
 class CounterBloc extends Bloc<CounterEvent, CounterState> {
   CounterBloc() : super(CounterState.initial()) {
-    // default 인 parallel 로 event 가 동작함.
-    on<CounterIncreasedEvent>(_counterIncreasedEvent);
-
+    // sequential() - Bloc Event가 자체 Event 안에서 순차적으로 실행됨.
+    on<CounterIncreasedEvent>(
+      _counterIncreasedEvent,
+      transformer: sequential(),
+    );
+    // sequential() - Bloc Event가 자체 Event 안에서 순차적으로 실행됨.
     on<CounterDecreasedEvent>(
       _counterDecreasedEvent,
-      // restartable() - 이전 event 가 끝나기 전에 다음 event 가 발생하면
-      // 기존 event 를 drop 하고 신규만 실행.
-      transformer: restartable(),
+      transformer: sequential(),
     );
   }
 
