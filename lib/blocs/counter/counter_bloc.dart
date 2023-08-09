@@ -6,6 +6,7 @@ part 'counter_state.dart';
 
 class CounterBloc extends Bloc<CounterEvent, CounterState> {
   CounterBloc() : super(CounterState.initial()) {
+    // default 인 parallel 로 event 가 동작함.
     on<CounterIncreasedEvent>(_counterIncreasedEvent);
 
     on<CounterDecreasedEvent>(_counterDecreasedEvent);
