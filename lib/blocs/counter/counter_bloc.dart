@@ -7,14 +7,15 @@ part 'counter_state.dart';
 
 class CounterBloc extends Bloc<CounterEvent, CounterState> {
   CounterBloc() : super(CounterState.initial()) {
-    // sequential() - Bloc Event가 자체 Event 안에서 순차적으로 실행됨.
-    on<CounterIncreasedEvent>(
-      _counterIncreasedEvent,
-      transformer: sequential(),
-    );
-    // sequential() - Bloc Event가 자체 Event 안에서 순차적으로 실행됨.
-    on<CounterDecreasedEvent>(
-      _counterDecreasedEvent,
+    // sequential() - Bloc Event들 모두를 통합하여 Event 가 순차적으로 실행됨.
+    on<CounterEvent>(
+      (event, emit) async {
+        if (event is CounterIncreasedEvent) {
+          await _counterIncreasedEvent(event, emit);
+        } else if (event is CounterDecreasedEvent) {
+          await _counterDecreasedEvent(event, emit);
+        }
+      },
       transformer: sequential(),
     );
   }
