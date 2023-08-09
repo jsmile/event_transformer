@@ -12,8 +12,9 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
 
     on<CounterDecreasedEvent>(
       _counterDecreasedEvent,
-      // droppable() - 이전 event 가 끝나기 전에 다음 event 가 발생하면 다음 event 를 drop 함.
-      transformer: droppable(),
+      // restartable() - 이전 event 가 끝나기 전에 다음 event 가 발생하면
+      // 기존 event 를 drop 하고 신규만 실행.
+      transformer: restartable(),
     );
   }
 
